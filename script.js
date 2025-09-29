@@ -1,3 +1,12 @@
+// ** Always push this command at the end of your day
+// **  git add.
+// **  git commit -m "initial commit"
+// **  git push origin main
+
+
+
+
+
 // function abhishek() {
 //    console.log("Hello Abhishek");
 // }
@@ -267,4 +276,84 @@
 
 
 
-// ** ARRAYS 
+// ** ARRAYS
+
+
+let abhi = [1, 2, 3, 4, 5] // array literal syntax
+
+
+// console.log(abhi, "Original array");
+// console.log(abhi);
+// console.log(abhi[0]); // 1  indexing 0
+// console.log(abhi[1]); // 2  indexing 1
+// console.log(abhi[2]); // 3  indexing 2
+
+// console.log(abhi[10]) // ** undefined as there is no element at index 10
+
+// abhi[2] = 12 //**  updating the value at index 2
+// console.log(abhi); //**  [1, 2, 12, 4, 5]
+
+// abhi.push(6) // ** adding an element at the end of the array
+// abhi.pop(4) // ** removing an element from the end of the array
+// abhi.shift() // ** removing an element from the start of the array
+// abhi.unshift(0) // ** adding an element at the start of the array
+
+// ** splice and slice
+// defination of splice and slice
+// ** splice() method changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+
+// ** slice() method returns a shallow copy of a portion of an array into a new array object selected from start to end (end not included) where start and end represent the index of items in that array. The original array will not be modified.
+
+// abhi.splice(2, 0, 3) // ** adding an element at index 2 , 0 means no element will be removed, 3 is the element to be added
+// abhi.splice(2, 2 , 5) // ** removing 2 elements from index 2
+
+// let newArr = abhi.slice(1, 4) // ** returns a new array from index 1 to index 4 (4 is not included)
+// console.log(newArr); // ** [2, 3, 4]  original array is not modified
+
+// abhi.reverse() // ** reverses the array
+// let ar = abhi.sort(function (a, b) {
+//     return a - b
+
+// }) // ** sorts the array in ascending order
+
+// console.log(ar);
+
+// let arrr = abhi.sort(function (a, b) {
+//     return b - a
+// }) // ** sorts the array in descending order
+
+// console.log(arrr);
+
+// console.log(abhi);
+
+
+// ** ForEach loop in array
+
+// abhi.forEach(function (val) {
+//     console.log(val + 5)
+// })
+
+
+// ** Map function in array
+// ** map sird tab use krte hai jb hume array ke har element ko modify krna ho aur naya array  return krna ho
+
+//  **map dikhte hi saath mei ek naya array bana lia karo
+
+// let newArr = abhi.map(function (val) {
+//     return val + 5
+// })
+
+// console.log(newArr); // ** [6, 7, 8, 9, 10] original array is not modified
+// console.log(abhi); // ** [1, 2, 3, 4, 5] original array is not modified
+
+// let newArr = abhi.map((val) => {
+//     if (val > 2) return val * 2
+//     else return val
+// })
+
+// console.log(newArr); // ** [1, 2, 6, 8, 10] original array is not modified
+// console.log(abhi); // ** [1, 2, 3, 4, 5] original array is not modified
+
+
+// ** Jab bhi apko aisa koi case dikh jaye jaha par ek arrau se naya aaray banana ho and agar wo naya array kuch values ko rakhega tab map lagega
+
