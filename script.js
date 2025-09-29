@@ -219,12 +219,52 @@
 // abcd()
 
 // function abcd() {
-//     console.log("Hello Abhishekkkkkkkkkkkkkkkkkkkkkk");    // ** function declaration is hoisted
+//     console.log("Hello Abhishekkkkkkkkkkkkkkkkkkkkkk");                                   // ** function declaration is hoisted
 // }
 
 // abcd2() // ** TypeError: abcd2 is not a function
-// var abcd2 = function () {   // ** function expression is not hoisted
+// var abcd2 = function () {                                                                 // ** function expression is not hoisted
 //     console.log("Hello Abhishekkkkkkkkkkkkkkkkkkkkkk");
 // }
 
 
+// ** question for function
+
+// ** what does ... operator do in function parameters ?
+// it is called rest operator and it is used to accept an indefinite number of arguments as an array
+
+// function sum(...val) {
+//     console.log(val);
+// }
+
+// sum(1, 2, 3, 4, 5); // [1, 2, 3, 4, 5]
+
+// ** use rest parameter to accept the numbers and return their total
+
+// function sum(...val) {
+//     let total = 0
+//     val.forEach(function (e) { // forEach is a higher order function
+//         total = total + e
+//     })
+//     console.log(total);
+// }
+
+// sum(1, 2, 3, 4, 5); // 15
+
+
+
+// function discountCalculator(discount) {
+//     return function (price) {
+//         return price - price * (discount / 100)
+//     }
+// }
+
+// let ten = discountCalculator(10) // 10% discount
+// let twenty = discountCalculator(20) // 20% discount
+
+// console.log(ten(1000)); // 900
+// console.log(twenty(1000)); // 800
+
+
+
+// ** ARRAYS 
