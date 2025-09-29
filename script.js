@@ -357,3 +357,98 @@ let abhi = [1, 2, 3, 4, 5] // array literal syntax
 
 // ** Jab bhi apko aisa koi case dikh jaye jaha par ek arrau se naya aaray banana ho and agar wo naya array kuch values ko rakhega tab map lagega
 
+
+
+
+// ** Filter function in array
+// ** filter sird tab use krte hai jb hume array ke kuch elements ko filter krna ho aur naya array return krna ho
+
+// let arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+// let newArr = arr.filter(function (val) {
+//     if (val > 5) return val
+// })
+
+// console.log(newArr); // ** [6, 7, 8, 9, 10] original array is not modified
+
+
+
+
+// ** reduce function in array
+// ** reduce sird tab use krte hai jb hume array ke sare elements ko ek single value mei convert krna ho
+
+// let arr = [1, 2, 3, 4, 5]
+// let ans = arr.reduce(function (accumlator, val) {
+//     return accumlator + val
+// }, 0) //** 0 is the initial value of accumlator
+
+// console.log(ans); // ** 15 original array is not modified
+// ** accumlator is the value returned by the previous iteration
+// ** val is the current element of the array
+
+
+// **  Find function in array
+// ** find sird tab use krte hai jb hume array ke kuch elements ko filter krna ho aur ek single value return krna ho
+
+
+
+
+
+
+// ** Destructing in JavaScript
+// ** Destructuring assignment is a special syntax in JavaScript that allows you to unpack values from arrays or properties from objects into distinct variables.
+
+// let arr = [1, 2, 3, 4, 5]
+// let [a, b, c, d, e] = arr // array destructuring
+// console.log(a, b, c, d, e); // 1 2 3 4 5
+
+// let obj = {
+//     name: "Abhishek",
+//     age: 24,
+//     city: "Bhopal"
+// }
+
+// let { name, age, city } = obj // object destructuring
+// console.log(name, age, city); // Abhishek 21 Bhopal
+
+
+
+
+
+
+
+// Arrays questions
+
+// 1. create an array with 3 fruits and prints the second fruit
+
+let arr = ["apple", "banana", "mango"]
+// console.log(arr[1]);
+
+// 2. add a fruit to the end of the array and at the beginning of the array and print the array
+
+// arr.push("orange")
+// arr.unshift("grapes")
+// console.log(arr);
+
+
+// 3. replace "BAnana " with "Kiwi" and print the array
+
+// arr[1] = "kiwi"
+// console.log(arr);
+
+// 4. remove the last fruit from the array and print the array
+
+// arr.pop()
+// console.log(arr);
+
+
+// insert 'red' and 'blue' at index 1 and 2 respectively and print the array
+
+// arr.splice(2, 0, 'red', 'blue')
+// console.log(arr);
+
+// 6. create a new array with the first 3 fruits of the original array and print the new array
+
+// let newArr = arr.slice(0, 3)
+// console.log(newArr);
+
