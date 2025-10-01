@@ -552,24 +552,87 @@ let arr = ["apple", "banana", "mango"]
 
 
 
-// ** Object destructuring 
+// ** Object destructuring
 // ** Destructuring assignment is a special syntax in JavaScript that allows you to unpack values from arrays or properties from objects into distinct variables.
-let student = {
-    name: "Abhishek",
-    age: 24,
-    address: {
-        city: "Bhopal",
-        state: "MP"
-    }
-};
+// let student = {
+//     name: "Abhishek",
+//     age: 24,
+//     address: {
+//         city: "Bhopal",
+//         state: "MP"
+//     }
+// };
 
-let {
-    name,
-    age,
-    address: {
-        city,
-        state
-    }
-} = student // object destructuring
-console.log(name, age, city, state); // Abhishek 24 Bhopal MP
-console.log(student); // original object is not modified
+// let {
+//     name,
+//     age,
+//     address: {
+//         city,
+//         state
+//     }
+// } = student // object destructuring
+// console.log(name, age, city, state); // Abhishek 24 Bhopal MP
+// console.log(student); // original object is not modified
+
+// ** 1.  What is an object in JavaScript ?
+// ** Objects are used to store multiple values in a single variable
+// ** Objects are key-value pairs
+// ** Keys are always strings
+// ** Values can be of any data type
+
+// ** 2. Difference between dot notation and bracket notation in objects ?
+// ** Dot notation is used to access the properties of an object using the dot operator (.) followed by the property name
+// ** Example:
+// student.name = "Rohit";
+
+
+
+// ** Bracket notation is used to access the properties of an object using square brackets ([]) and the property name as a string
+// ** Example:
+// student["name"] = "Rohit";
+
+
+// ** 3. How do you delete a property from an object ?
+// ** You can delete a property from an object using the delete operator followed by the object name and the property name
+// ** Example:
+// delete student.age;
+
+// ** 4. Difference between object and array in JS.?
+// ** Objects are used to store multiple values in a single variable as key-value pairs
+// ** Arrays are used to store multiple values in a single variable as a list of values
+
+// ** 5. How do you check if a property exists in an object? (in vs hasOwnProperty)
+// ** You can check if a property exists in an object using the in operator or the hasOwnProperty method
+// ** Example:
+// console.log("name" in student); // true
+// console.log(student.hasOwnProperty("name")); // true
+
+// **6. Difference between Object.keys(), Object.values(), and Object.entries().
+// ** Object.keys() returns an array of the object's own property names
+// ** Object.values() returns an array of the object's own property values
+// ** Object.entries() returns an array of the object's own key-value pairs as arrays
+
+
+// ** 7.What are computed property names in objects?
+// ** Computed property names allow you to use an expression as the property name in an object literal
+// ** Example:
+// let prop = "name";
+// let student = {
+//     [prop]: "Abhishek" // computed property name
+// };
+// console.log(student.name); // Abhishek
+
+// **8.How do you merge two or more objects? (Object.assign vs spread operator).
+// ** You can merge two or more objects using the Object.assign() method or the spread operator
+// ** Example using Object.assign():
+// let obj1 = { a: 1 };
+
+// let obj2 = { b: 2 };
+// let mergedObj = Object.assign({}, obj1, obj2); // merging obj1 and obj2 into a new object
+// console.log(mergedObj); // { a: 1, b: 2 }
+
+// ** Example using spread operator:
+// let obj1 = { a: 1 };
+// let obj2 = { b: 2 };
+// let mergedObj = { ...obj1, ...obj2 }; // merging obj1 and obj2 into a new object
+// console.log(mergedObj); // { a: 1, b: 2 }
