@@ -460,4 +460,92 @@ let arr = ["apple", "banana", "mango"]
 // ** Objects are key-value pairs
 // ** Keys are always strings
 // ** Values can be of any data type
+// let student = {
+//     name: "Abhishek",
+//     greet: function () {
+//         console.log("Hello " + this.name);
+//     },
+//     age: 24,
+//     city: "Bhopal",
+//     isMarried: false,
+//     skills: ["JavaScript", "React", "Node.js"],
+//     address: {
+//         street: "123 Main St",
+//         city: "Bhopal",
+//         state: "MP"
+//     }
+// }
+
+// student.greet(); // Hello Abhishek
+// newStudent.greet()
+
+// student.sex = 'Male'
+// student.age = 30
+// delete student.sex
+
+// console.log(student);
+
+// console.log(student); // ** prints the entire object
+// console.log(student.skills[1]) // ** prints the second skill
+// console.log(student.address.city) // ** prints the state from address object
+// console.log(student["name"]); // ** prints the name using bracket notation
+// console.log(student["address"]["state"]); // ** prints the state from address object using bracket notation
+
+// let newStudent = {
+//     ...student
+// } // ** spread operator to copy the object
+
+// newStudent.name = "Rohit"
+// console.log(student);
+// console.log(newStudent);
+
+let student = {
+    name: "Abhishek",
+    age: 24,
+    address: {
+        city: "Bhopal"
+    }
+};
+
+// let copy1 = {
+//     ...student
+// };
+// copy1.name = "Rohit";
+// copy1.address.city = "Delhi";
+
+// console.log(student)
+// console.log(student.name); // Abhishek
+// console.log(student.address.city); // Delhi ⚠️ (nested object shared)
+// console.log(copy1)
+
+// console.log(Object.keys(student)) // array of keys
+// console.log(Object.values(student)) // array of values
+// console.log(Object.entries(student)) // 2D array of key value pairs
+
+// console.log("name" in student) // ** false // true if key is present in object
+
+// console.log("city" in student.address) // ** true
+
+
+//** Merging objects
+
+let a = {
+    x: 1
+}
+let b = {
+    y: 2
+}
+let c = {
+    z: 3
+}
+let d = {
+    ...a,
+    ...b,
+    ...c
+}
+
+console.log(d)
+
+d.e = 4
+console.log(d)
 
