@@ -452,3 +452,12 @@ let arr = ["apple", "banana", "mango"]
 // let newArr = arr.slice(0, 3)
 // console.log(newArr);
 
+
+
+
+//**  Objects in JavaScript
+// ** Objects are used to store multiple values in a single variable
+// ** Objects are key-value pairs
+// ** Keys are always strings
+// ** Values can be of any data type
+
