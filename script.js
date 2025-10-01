@@ -499,13 +499,13 @@ let arr = ["apple", "banana", "mango"]
 // console.log(student);
 // console.log(newStudent);
 
-let student = {
-    name: "Abhishek",
-    age: 24,
-    address: {
-        city: "Bhopal"
-    }
-};
+// let student = {
+//     name: "Abhishek",
+//     age: 24,
+//     address: {
+//         city: "Bhopal"
+//     }
+// };
 
 // let copy1 = {
 //     ...student
@@ -520,7 +520,7 @@ let student = {
 
 // console.log(Object.keys(student)) // array of keys
 // console.log(Object.values(student)) // array of values
-// console.log(Object.entries(student)) // 2D array of key value pairs
+// console.log(Object.entries(student)) // 2D array of key value pairs output ? // [ [ 'name', 'Abhishek' ], [ 'age', 24 ], [ 'address', { city: 'Bhopal' } ] ]
 
 // console.log("name" in student) // ** false // true if key is present in object
 
@@ -529,23 +529,47 @@ let student = {
 
 //** Merging objects
 
-let a = {
-    x: 1
-}
-let b = {
-    y: 2
-}
-let c = {
-    z: 3
-}
-let d = {
-    ...a,
-    ...b,
-    ...c
-}
+// let a = {
+//     x: 1
+// }
+// let b = {
+//     y: 2
+// }
+// let c = {
+//     z: 3
+// }
+// let d = {
+//     ...a,
+//     ...b,
+//     ...c
+// }
 
-console.log(d)
+// console.log(d)
 
-d.e = 4
-console.log(d)
+// d.e = 4
+// console.log(d)
 
+
+
+
+// ** Object destructuring 
+// ** Destructuring assignment is a special syntax in JavaScript that allows you to unpack values from arrays or properties from objects into distinct variables.
+let student = {
+    name: "Abhishek",
+    age: 24,
+    address: {
+        city: "Bhopal",
+        state: "MP"
+    }
+};
+
+let {
+    name,
+    age,
+    address: {
+        city,
+        state
+    }
+} = student // object destructuring
+console.log(name, age, city, state); // Abhishek 24 Bhopal MP
+console.log(student); // original object is not modified
