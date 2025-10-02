@@ -636,3 +636,9 @@ let arr = ["apple", "banana", "mango"]
 // let obj2 = { b: 2 };
 // let mergedObj = { ...obj1, ...obj2 }; // merging obj1 and obj2 into a new object
 // console.log(mergedObj); // { a: 1, b: 2 }
+
+
+
+
+
+// ** DOM 
