@@ -641,4 +641,45 @@ let arr = ["apple", "banana", "mango"]
 
 
 
-// ** DOM 
+// ** DOM
+// ** 1.What is the DOM ? Difference between DOM and BOM ?
+// ** DOM (Document Object Model) is a programming interface for web documents. It represents the page so that programs can change the document structure, style, and content. The DOM represents the document as nodes and objects; that way, programming languages can interact with the page.
+// ** BOM (Browser Object Model) is a programming interface for web browsers. It represents the browser window and provides methods to interact with the browser, such as opening new windows, navigating to different URLs, and getting information about the browser.
+
+// ** The main difference between DOM and BOM is that DOM is used to interact with the document (web page) while BOM is used to interact with the browser (window).
+
+
+
+
+// ** 2. Difference between NodeList and HTMLCollection?
+// ** NodeList is a collection of nodes returned by certain DOM methods (e.g., querySelectorAll). It is a static collection, meaning it does not automatically update when the document changes.
+
+// ** HTMLCollection is a collection of HTML elements returned by certain DOM methods (e.g., getElementsByTagName). It is a live collection, meaning it automatically updates when the document changes.
+
+
+
+
+// ** 3. How to select elements in the DOM ?
+// ** You can select elements in the DOM using various methods such as:
+// ** getElementById(): Selects an element by its ID
+// ** getElementsByClassName(): Selects elements by their class name
+// ** getElementsByTagName(): Selects elements by their tag name
+// ** querySelector(): Selects the first element that matches a CSS selector
+// ** querySelectorAll(): Selects all elements that match a CSS selector
+
+
+// ** Example:
+// let elementById = document.getElementById("myId");
+// let elementsByClassName = document.getElementsByClassName("myClass");
+// let elementsByTagName = document.getElementsByTagName("div");
+// let firstElementBySelector = document.querySelector(".myClass");
+// let allElementsBySelector = document.querySelectorAll(".myClass");
+
+
+
+
+
+// ** 4. Difference between event.target and event.currentTarget?
+// ** event.target refers to the element that triggered the event (the actual element that was clicked, hovered, etc.)
+// ** event.currentTarget refers to the element that the event listener is attached to (the element that is currently handling the event)
+ 
