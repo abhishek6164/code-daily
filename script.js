@@ -746,9 +746,9 @@ let arr = ["apple", "banana", "mango"]
 // 2. Local scope
 // 3. Block scope
 
-// function scope - function ke ander hi use ho sakta hai
-// block scope - {} ke ander hi use ho sakta hai
-// global scope - pure code mei kahi bhi use ho sakta hai
+// ** function scope - function ke ander hi use ho sakta hai
+// ** block scope - {} ke ander hi use ho sakta hai
+// ** global scope - pure code mei kahi bhi use ho sakta hai
 
 // var a = 10 // global scope
 
@@ -760,7 +760,111 @@ let arr = ["apple", "banana", "mango"]
 //     }
 //     // console.log(c); // error c is not defined
 //     console.log(b); // 20
-// }        
+// }
 // abhishek();
 // console.log(a); // 10
 // console.log(b); // error b is not defined
+
+
+// ** Execution context
+// js mei sabse pehle code ko execute karne ke liye ek environment create hota hai jise execution context kehte hai
+// ye ek process hai jisme code ko execute kiya jata hai
+
+// 1. Memory  phase
+// Variables aur functions ko memory mei space milta hai.
+
+// Variables→ undefined set hote hain.
+
+// Functions→ pura ka pura function memory mei chala jata hai.
+
+// 2. execution phase
+// Ab line by line code execute hota hai.
+// Variables ko actual value milti hai.
+
+
+// ** Execution context is the environment in which the code is executed
+// ** There are two types of execution context
+// 1. Global execution context
+// Default context jo sabse pehle banta hai jab JS file run hoti hai.
+// this ka value→ browser mei window, Node.js mei {}.
+// Sirf ek hi hota hai.
+
+// 2. Function execution context
+// Jab bhi function call hota hai, ek naya execution context banta hai.
+// Har function ka apna alag hota hai.
+
+
+
+// var x = 10;
+
+// function greet() {
+//     console.log("Hello, " + name);
+//     var name = "Abhishek";
+// }
+
+// greet();
+
+
+// Step by Step Execution
+
+//** 1. Global Execution Context Created
+
+// Memory Phase:
+//     x→ undefined
+//     greet→ // function
+
+// Execution Phase:
+//     x = 10
+//     greet() call→ new Function Execution Context banega
+
+// ** 2.  Function Execution Context  for greet()
+
+// Memory Phase:
+//     name→ undefined
+
+// Execution Phase:
+//     console.log("Hello, " + name); → "Hello, undefined"  print karega
+//     then name = "Abhishek"    assign hota hai
+
+
+
+
+
+
+// ** lexical scoping
+// ki aap kha par physically available ho ye poori tareeke se depend karta hai ki aap ya access kar rahe ho
+
+// function abcd() {
+//     let a = 10 // parent function ka scope
+
+//     function defg() {
+//         let b = 20 // child function ka scope
+//     }
+
+// }
+
+
+
+
+
+// ** dynamic scoping
+// ki aap kha par logically available ho ye poori tareeke se depend karta hai ki aap ya access kar rahe ho
+
+
+// **  closures in JavaScript
+// closure ek function jo ki kisi parent function ke ander hoaur andar waala function return ho rha ho and returning function use kare parent function  koi variable ko
+
+// function abcd() {
+//     let a = 12; // parent function ka scope
+
+//     function defg() {
+//         console.log(a); // child function ka scope
+//     }
+// }
+
+
+
+
+
+
+
