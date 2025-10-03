@@ -863,8 +863,50 @@ let arr = ["apple", "banana", "mango"]
 // }
 
 
+// ** use cases of closures
+// ** 1. private counters
+// function countForMe() {
+//     let c = 0
+//     return function () {
+//         c++
+//         console.log(c)
+//     }
+// }
+
+// let count = countForMe()
+// count()
+// count()
+// count()
+
+// let count2 = countForMe()
+// count2()
+// count2()
+// count2()
+// count2()
+// count2()
+// count2()
+
+// ** 2. Encapsulation
+
+// function clickLimiter() {
+//     let count = 0
+//     return function () {
+
+//         if (count < 5) {
+//             count ++
+//             console.log("Button clicked");
+
+//         } else {
+//             console.error("Click limit exceeded");
+//         }
+//     }
+// }
 
 
-
-
-
+// let fnc = clickLimiter()
+// fnc()
+// fnc()
+// fnc()
+// fnc()
+// fnc()
+// fnc()
