@@ -910,3 +910,167 @@ let arr = ["apple", "banana", "mango"]
 // fnc()
 // fnc()
 // fnc()
+
+
+// toaster 
+// Simple, accessible toaster implementation with Tailwind styles
+;
+(function () {
+    const container = document.getElementById('toast-container');
+
+    function createToastElement({
+        id,
+        title,
+        message,
+        type = 'info',
+        duration = 4000
+    }) {
+        const colors = {
+            success: 'bg-green-500',
+            error: 'bg-red-500',
+            info: 'bg-blue-500',
+            warn: 'bg-yellow-500',
+        };
+
+        const toast = document.createElement('div');
+        toast.className = `pointer-events-auto flex items-start gap-3 p-3 rounded-lg shadow-md text-white ${colors[type] || colors.info} transform transition-all duration-300 translate-y-0`;
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        toast.dataset.id = id;
+
+        toast.innerHTML = `
+			<div class="flex-1">
+				${title ? `<div class="font-semibold">${escapeHtml(title)}</div>` : ''}
+				${message ? `<div class="text-sm">${escapeHtml(message)}</div>` : ''}
+			</div>
+			<button class="ml-2 opacity-90 hover:opacity-100 text-white" aria-label="Dismiss toast">&times;</button>
+		`;
+
+        // Dismiss on button click
+        toast.querySelector('button').addEventListener('click', () => removeToast(id));
+
+        // Pause auto-dismiss on hover
+        let timeoutId;
+
+        function startTimer() {
+            timeoutId = setTimeout(() => removeToast(id), duration);
+        }
+
+        function clearTimer() {
+            clearTimeout(timeoutId);
+        }
+        toast.addEventListener('mouseenter', clearTimer);
+        toast.addEventListener('mouseleave', startTimer);
+
+        // start timer after insertion
+        requestAnimationFrame(startTimer);
+
+        return toast;
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function showToast({
+        title = '',
+        message = '',
+        type = 'info',
+        duration = 4000
+    } = {}) {
+        if (!container) return console.warn('Toast container not found');
+        const id = `toast_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+        const el = createToastElement({
+            id,
+            title,
+            message,
+            type,
+            duration
+        });
+
+        // insert at top
+        container.prepend(el);
+
+        // animate in
+        requestAnimationFrame(() => {
+            el.style.opacity = '1';
+            el.classList.remove('translate-y-4');
+        });
+
+        return id;
+    }
+
+    function removeToast(id) {
+        const toast = container.querySelector(`[data-id="${id}"]`);
+        if (!toast) return;
+        // animate out
+        toast.style.transform = 'translateY(-10px)';
+        toast.style.opacity = '0';
+        toast.style.transition = 'all 200ms ease-in';
+        setTimeout(() => toast.remove(), 200);
+    }
+
+    // Convenience helpers
+    window.toaster = {
+        show: showToast,
+        success(opts) {
+            return showToast(Object.assign({
+                type: 'success'
+            }, normalize(opts)));
+        },
+        error(opts) {
+            return showToast(Object.assign({
+                type: 'error'
+            }, normalize(opts)));
+        },
+        info(opts) {
+            return showToast(Object.assign({
+                type: 'info'
+            }, normalize(opts)));
+        },
+        warn(opts) {
+            return showToast(Object.assign({
+                type: 'warn'
+            }, normalize(opts)));
+        },
+        remove: removeToast,
+    };
+
+    function normalize(opts) {
+        if (typeof opts === 'string') return {
+            message: opts
+        };
+        return opts || {};
+    }
+
+    // Demo button wiring (if present)
+    document.addEventListener('DOMContentLoaded', () => {
+        const bSuccess = document.getElementById('btn-success');
+        const bError = document.getElementById('btn-error');
+        const bInfo = document.getElementById('btn-info');
+        const bWarn = document.getElementById('btn-warn');
+
+        if (bSuccess) bSuccess.addEventListener('click', () => window.toaster.success({
+            title: 'Saved',
+            message: 'Your changes have been saved.'
+        }));
+        if (bError) bError.addEventListener('click', () => window.toaster.error({
+            title: 'Error',
+            message: 'Something went wrong.'
+        }));
+        if (bInfo) bInfo.addEventListener('click', () => window.toaster.info({
+            title: 'Heads up',
+            message: 'This is some information.'
+        }));
+        if (bWarn) bWarn.addEventListener('click', () => window.toaster.warn({
+            title: 'Warning',
+            message: 'This might need your attention.'
+        }));
+    });
+})();
