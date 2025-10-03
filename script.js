@@ -681,5 +681,86 @@ let arr = ["apple", "banana", "mango"]
 
 // ** 4. Difference between event.target and event.currentTarget?
 // ** event.target refers to the element that triggered the event (the actual element that was clicked, hovered, etc.)
+
 // ** event.currentTarget refers to the element that the event listener is attached to (the element that is currently handling the event)
- 
+
+
+
+
+// ** 5. What is event delegation in JavaScript? Example?
+
+// ** Event delegation is a technique in JavaScript where you attach a single event listener to a parent element instead of attaching multiple event listeners to individual child elements. This is useful when you have a large number of child elements or when child elements are added dynamically.
+
+
+// ** Example:
+// document.getElementById("parent").addEventListener("click", function(event) {
+//     if (event.target.matches(".child")) {
+// Handle click event for child elements
+//         console.log("Child element clicked:", event.target);
+//     }
+// });
+
+// In this example, a single click event listener is attached to the parent element with the ID "parent". When any child element with the class "child" is clicked, the event listener checks if the clicked element matches the selector and handles the event accordingly. This way, you don't need to attach separate event listeners to each child element.
+
+// ** 6. Explain capturing vs bubbling in event propagation.
+// ** Capturing and bubbling are two phases of event propagation in the DOM.
+// ** Capturing (or capture) phase: The event starts from the root and travels down to the target element. This phase allows you to intercept the event before it reaches the target.
+// ** Bubbling phase: The event starts from the target element and travels up to the root. This is the default phase for most events, and it allows parent elements to handle events triggered by their children.
+
+
+
+// ** 7.How to remove an element from the DOM dynamically?
+// ** You can remove an element from the DOM dynamically using the remove() method or by using the parentNode.removeChild() method.
+// ** Example using remove():
+// let element = document.getElementById("myElement");
+// element.remove(); // removes the element from the DOM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// **  Scope Execution context and closure
+
+// ** Scope
+// scope Matlab ki app apne created variables and function ko kha tak use kar sate hai
+
+// 1. Global scope
+// 2. Local scope
+// 3. Block scope
+
+// function scope - function ke ander hi use ho sakta hai
+// block scope - {} ke ander hi use ho sakta hai
+// global scope - pure code mei kahi bhi use ho sakta hai
+
+// var a = 10 // global scope
+
+// function abhishek() {
+//     var b = 20 // function scope
+//     if (true) {
+//         let c = 30 // block scope
+//         console.log(c); // 30
+//     }
+//     // console.log(c); // error c is not defined
+//     console.log(b); // 20
+// }        
+// abhishek();
+// console.log(a); // 10
+// console.log(b); // error b is not defined
