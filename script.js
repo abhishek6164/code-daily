@@ -914,163 +914,309 @@ let arr = ["apple", "banana", "mango"]
 
 // toaster 
 // Simple, accessible toaster implementation with Tailwind styles
+//
+// Hinglish comments added below to explain logic in a simple way.
+// Yeh IIFE (Immediately Invoked Function Expression) ek chhota self-contained
+// toaster module banata hai jo `window.toaster` expose karta hai.
+// Use karne ka tareeka:
+//   toaster.success('Saved')
+//   toaster.show({ title: 'Hi', message: 'Hello', type: 'info' })
+// Toaster ke features: auto-dismiss, hover-to-pause, dismiss button, aur simple animation.
 ;
-(function () {
-    const container = document.getElementById('toast-container');
+// (function () {
 
-    function createToastElement({
-        id,
-        title,
-        message,
-        type = 'info',
-        duration = 4000
-    }) {
-        const colors = {
-            success: 'bg-green-500',
-            error: 'bg-red-500',
-            info: 'bg-blue-500',
-            warn: 'bg-yellow-500',
-        };
 
-        const toast = document.createElement('div');
-        toast.className = `pointer-events-auto flex items-start gap-3 p-3 rounded-lg shadow-md text-white ${colors[type] || colors.info} transform transition-all duration-300 translate-y-0`;
-        toast.setAttribute('role', 'status');
-        toast.setAttribute('aria-live', 'polite');
-        toast.dataset.id = id;
+//     // Container ko DOM se le rahe hain — yahi pe saare toasts inject honge
+//     // Agar user ne `#toast-container` add nahi kiya toh kuch bhi show nahi hoga.
+//     // pointer-events-none parent pe laga hua tha taaki clicks background ko pass karein,
+//     // lekin har toast khud `pointer-events-auto` hai taaki dismiss button pe click ho sake.
+//     const container = document.getElementById('toast-container');
 
-        toast.innerHTML = `
-			<div class="flex-1">
-				${title ? `<div class="font-semibold">${escapeHtml(title)}</div>` : ''}
-				${message ? `<div class="text-sm">${escapeHtml(message)}</div>` : ''}
-			</div>
-			<button class="ml-2 opacity-90 hover:opacity-100 text-white" aria-label="Dismiss toast">&times;</button>
-		`;
+//     // createToastElement: ek DOM element banata hai toast ke liye
+//     // Hinglish: yeh function ek ready-to-insert toast DOM node banata hai.
+//     // - id: unique id for later removal
+//     // - title/message: content
+//     // - type: success/error/info/warn (styling decide karta hai)
+//     // - duration: kitni der ke baad auto-dismiss hoga
+//     function createToastElement({
+//         id,
+//         title,
+//         message,
+//         type = 'info',
+//         duration = 4000
+//     }) {
+//         const colors = {
+//             success: 'bg-green-500',
+//             error: 'bg-red-500',
+//             info: 'bg-blue-500',
+//             warn: 'bg-yellow-500',
+//         };
 
-        // Dismiss on button click
-        toast.querySelector('button').addEventListener('click', () => removeToast(id));
+//         // Toast element banaya gaya — Tailwind classes use karke styling apply kar rahe hain
+//         // Accessibility: role=status aur aria-live=polite set kiya taaki screen-reader friendly ho.
+//         const toast = document.createElement('div');
+//         toast.className = `pointer-events-auto flex items-start gap-3 p-3 rounded-lg shadow-md text-white ${colors[type] || colors.info} transform transition-all duration-300 translate-y-0`;
+//         toast.setAttribute('role', 'status');
+//         toast.setAttribute('aria-live', 'polite');
+//         toast.dataset.id = id;
 
-        // Pause auto-dismiss on hover
-        let timeoutId;
+//         toast.innerHTML = `
+// 			<div class="flex-1">
+// 				${title ? `<div class="font-semibold">${escapeHtml(title)}</div>` : ''}
+// 				${message ? `<div class="text-sm">${escapeHtml(message)}</div>` : ''}
+// 			</div>
+// 			<button class="ml-2 opacity-90 hover:opacity-100 text-white" aria-label="Dismiss toast">&times;</button>
+// 		`;
 
-        function startTimer() {
-            timeoutId = setTimeout(() => removeToast(id), duration);
-        }
+//         // Dismiss on button click — user khud close kar sakta hai
+//         toast.querySelector('button').addEventListener('click', () => removeToast(id));
 
-        function clearTimer() {
-            clearTimeout(timeoutId);
-        }
-        toast.addEventListener('mouseenter', clearTimer);
-        toast.addEventListener('mouseleave', startTimer);
+//         // Auto-dismiss timer logic
+//         // - startTimer: setTimeout se toast hata dega after `duration`
+//         // - clearTimer: hover karne pe timer clear kar dete hain (pause on hover)
+//         let timeoutId;
 
-        // start timer after insertion
-        requestAnimationFrame(startTimer);
+//         function startTimer() {
+//             timeoutId = setTimeout(() => removeToast(id), duration);
+//         }
 
-        return toast;
-    }
+//         function clearTimer() {
+//             clearTimeout(timeoutId);
+//         }
+//         // Hover pe timer rokna, mouse leave pe fir se start
+//         toast.addEventListener('mouseenter', clearTimer);
+//         toast.addEventListener('mouseleave', startTimer);
 
-    function escapeHtml(str) {
-        if (!str) return '';
-        return String(str)
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;')
-            .replace(/"/g, '&quot;')
-            .replace(/'/g, '&#039;');
-    }
+//         // Timer tabhi start karte hain jab element DOM me insert ho jaaye —
+//         // requestAnimationFrame use karne se rendering cycle complete hone ka wait hota hai.
+//         requestAnimationFrame(startTimer);
 
-    function showToast({
-        title = '',
-        message = '',
-        type = 'info',
-        duration = 4000
-    } = {}) {
-        if (!container) return console.warn('Toast container not found');
-        const id = `toast_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-        const el = createToastElement({
-            id,
-            title,
-            message,
-            type,
-            duration
-        });
+//         return toast;
+//     }
 
-        // insert at top
-        container.prepend(el);
+//     // escapeHtml: simple sanitizer taaki user content me HTML injection na ho
+//     // Hinglish: agar message me <script> jaisa kuch ho to wo HTML me render na ho, balki safe text ban ke aaye.
+//     function escapeHtml(str) {
+//         if (!str) return '';
+//         return String(str)
+//             .replace(/&/g, '&amp;')
+//             .replace(/</g, '&lt;')
+//             .replace(/>/g, '&gt;')
+//             .replace(/"/g, '&quot;')
+//             .replace(/'/g, '&#039;');
+//     }
 
-        // animate in
-        requestAnimationFrame(() => {
-            el.style.opacity = '1';
-            el.classList.remove('translate-y-4');
-        });
+//     function showToast({
+//         title = '',
+//         message = '',
+//         type = 'info',
+//         duration = 4000
+//     } = {}) {
+//         // Agar container present nahi hai toh kuch bhi add nahi karenge — developer warning dal denge
+//         if (!container) return console.warn('Toast container not found');
+//         // unique id generate karte hain taaki baad me specific toast remove kar sakein
+//         const id = `toast_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
+//         const el = createToastElement({
+//             id,
+//             title,
+//             message,
+//             type,
+//             duration
+//         });
 
-        return id;
-    }
+//         // Naye toasts ko top pe prepend kar rahe hain — recent toast upar dikhega
+//         container.prepend(el);
 
-    function removeToast(id) {
-        const toast = container.querySelector(`[data-id="${id}"]`);
-        if (!toast) return;
-        // animate out
-        toast.style.transform = 'translateY(-10px)';
-        toast.style.opacity = '0';
-        toast.style.transition = 'all 200ms ease-in';
-        setTimeout(() => toast.remove(), 200);
-    }
+//         // Chhota sa entrance tweak — rAF me style apply kar ke smooth animation milti hai
+//         requestAnimationFrame(() => {
+//             el.style.opacity = '1';
+//             el.classList.remove('translate-y-4');
+//         });
 
-    // Convenience helpers
-    window.toaster = {
-        show: showToast,
-        success(opts) {
-            return showToast(Object.assign({
-                type: 'success'
-            }, normalize(opts)));
-        },
-        error(opts) {
-            return showToast(Object.assign({
-                type: 'error'
-            }, normalize(opts)));
-        },
-        info(opts) {
-            return showToast(Object.assign({
-                type: 'info'
-            }, normalize(opts)));
-        },
-        warn(opts) {
-            return showToast(Object.assign({
-                type: 'warn'
-            }, normalize(opts)));
-        },
-        remove: removeToast,
-    };
+//         return id;
+//     }
 
-    function normalize(opts) {
-        if (typeof opts === 'string') return {
-            message: opts
-        };
-        return opts || {};
-    }
+//     // removeToast: visually hide karke element remove kar deta hai
+//     // Hinglish: pehle animation karke user ko dikhate hain ki toast gayab ho raha hai, phir DOM se remove kar dete hain.
+//     function removeToast(id) {
+//         const toast = container.querySelector(`[data-id="${id}"]`);
+//         if (!toast) return;
+//         // animate out (thoda upar slide aur fade)
+//         toast.style.transform = 'translateY(-10px)';
+//         toast.style.opacity = '0';
+//         toast.style.transition = 'all 200ms ease-in';
+//         // animation ke baad element hata do
+//         setTimeout(() => toast.remove(), 200);
+//     }
 
-    // Demo button wiring (if present)
-    document.addEventListener('DOMContentLoaded', () => {
-        const bSuccess = document.getElementById('btn-success');
-        const bError = document.getElementById('btn-error');
-        const bInfo = document.getElementById('btn-info');
-        const bWarn = document.getElementById('btn-warn');
+//     // Convenience helpers: chhote wrapper functions taaki use karna asaan ho
+//     window.toaster = {
+//         show: showToast,
+//         success(opts) {
+//             return showToast(Object.assign({
+//                 type: 'success'
+//             }, normalize(opts)));
+//         },
+//         error(opts) {
+//             return showToast(Object.assign({
+//                 type: 'error'
+//             }, normalize(opts)));
+//         },
+//         info(opts) {
+//             return showToast(Object.assign({
+//                 type: 'info'
+//             }, normalize(opts)));
+//         },
+//         warn(opts) {
+//             return showToast(Object.assign({
+//                 type: 'warn'
+//             }, normalize(opts)));
+//         },
+//         remove: removeToast,
+//     };
 
-        if (bSuccess) bSuccess.addEventListener('click', () => window.toaster.success({
-            title: 'Saved',
-            message: 'Your changes have been saved.'
-        }));
-        if (bError) bError.addEventListener('click', () => window.toaster.error({
-            title: 'Error',
-            message: 'Something went wrong.'
-        }));
-        if (bInfo) bInfo.addEventListener('click', () => window.toaster.info({
-            title: 'Heads up',
-            message: 'This is some information.'
-        }));
-        if (bWarn) bWarn.addEventListener('click', () => window.toaster.warn({
-            title: 'Warning',
-            message: 'This might need your attention.'
-        }));
-    });
-})();
+//     // normalize: agar user sirf string pass kare toh use { message: '...' } me convert kar dete hain
+//     // taaki toaster.success('Done') waise bhi chal jaaye bina object banaye.
+//     function normalize(opts) {
+//         if (typeof opts === 'string') return {
+//             message: opts
+//         };
+//         return opts || {};
+//     }
+
+//     // Demo button wiring (if present)
+//     // Yeh demo code sirf development ke liye hai — production me aap isko hata sakte ho.
+//     document.addEventListener('DOMContentLoaded', () => {
+//         const bSuccess = document.getElementById('btn-success');
+//         const bError = document.getElementById('btn-error');
+//         const bInfo = document.getElementById('btn-info');
+//         const bWarn = document.getElementById('btn-warn');
+
+//         if (bSuccess) bSuccess.addEventListener('click', () => window.toaster.success({
+//             title: 'Saved',
+//             message: 'Your changes have been saved.'
+//         }));
+//         if (bError) bError.addEventListener('click', () => window.toaster.error({
+//             title: 'Error',
+//             message: 'Something went wrong.'
+//         }));
+//         if (bInfo) bInfo.addEventListener('click', () => window.toaster.info({
+//             title: 'Heads up',
+//             message: 'This is some information.'
+//         }));
+//         if (bWarn) bWarn.addEventListener('click', () => window.toaster.warn({
+//             title: 'Warning',
+//             message: 'This might need your attention.'
+//         }));
+//     });
+// })();
+
+
+
+
+
+
+
+
+
+// ** This Keywords
+// this is the special keyword
+// this keyword is the special keyword in js which changes its value in different context
+
+// in global scope :
+//  console.log(this)               ----->  window
+
+
+// in function scope :
+// function abcd() {
+// console.log(this )            --------> window
+// }
+
+
+
+// in method scope
+
+// var obj = {
+//     name:" Abhishek",
+//     some: function(){
+//         console.log(this)              --------> object obj
+//     }
+// }
+
+
+// event listeners:----
+// this keyword is equal to whatever written before addEventListener, in this this
+// case button
+// var button = document.querySelector('button')
+// button.addEventListener("click", function () {
+//     console.log(this)
+// })
+
+
+
+
+
+
+// ** this ki values
+// ---------------------------------------------------
+// global                                    ---- window
+// function                                  ---- window
+// method with es5 func                      ---- object
+// method with es6 func                      ---- window
+// es5 func inside es5 method                ---- window
+// arrow function inside es5 method          ---- object
+// event handler                             ---- element
+// class                                     ---- blank object
+
+
+// **  call apply bind
+// ** call apply bind are the methods of function prototype
+
+// ** call
+// function ko call karte waqt aap set kar sakte ho kiuski this ki value kya hogi
+
+// let obj = {
+//     name: "Abhishek",
+//     age: 24
+// }
+
+// function abcd() {
+//     console.log(this.name);
+// }
+
+// abcd.call(obj)
+
+// ** apply
+// apply bhi call ki tarah hi hai bas difference itna hai ki call mei arguments ko comma se
+// separate karte hai aur apply mei arguments ko array mei pass karte hai
+
+// let obj = {
+//     name: "Abhishek",
+//     age: 24
+// }
+
+// function abcd(city, state) {
+//     console.log(this.name + " " + city + " " + state);
+// }
+
+// abcd.apply(obj, ["Bhopal", "MP"])
+
+// ** bind
+// bind bhi call ki tarah hi hai bas difference itna hai ki call aur apply function ko turant call kar dete hai
+// lekin bind function ko call nahi karta balki ek naya function return karta hai jise baad mei call kar sakte hai
+
+// let obj = {
+//     name: "Abhishek",
+//     age: 24
+// }
+
+// function abcd(city, state) {
+//     console.log(this.name + " " + city + " " + state);
+// }
+
+// let newFunc = abcd.bind(obj, "Bhopal", "MP")
+// newFunc() // Abhishek Bhopal MP
+
+
+
+
