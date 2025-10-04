@@ -1220,3 +1220,66 @@ let arr = ["apple", "banana", "mango"]
 
 
 
+// ** oops object oriented programming language
+
+// ** 4 pillars of oops
+// 1. Encapsulation
+// 2. Abstraction
+// 3. Inheritance
+// 4. Polymorphism
+
+// Hame seekhna factories banaana , matlab ki aap ek baar blueprint bana do ki har object kaise dikhega and hum log naye naye objects with different values bana paayege , yahi upar upar se poora kaam hai OOPS mei
+
+
+// function CreatePencil(name, price, color, company) {
+//     this.name = name
+//     this.price = price
+//     this.color = color
+//     this.write = function (text) {
+//         let h1 = document.createElement('h1')
+//         h1.textContent = text
+//         h1.style.color = this.color
+//         document.body.appendChild(h1)
+//     }
+// }
+
+// CreatePencil.prototype.company = "Abhishek's Transportation"
+
+
+// let pencile1 = new CreatePencil("Natraj", 10, "red", "Natraj")
+// console.log(pencile1);
+
+
+// let pencile2 = new CreatePencil("Apsara ", 20, "Black", "Abhishek")
+
+
+
+//* Constructor Function
+
+class CreatePencil {
+    constructor(name, company, price, color) {
+        this.name = name;
+        this.company = company;
+        this.price = price;
+        this.color = color
+    }
+    erase() {
+        document.body.querySelectorAll("h1").forEach((elem) => {
+            if (elem.style.color === this.color) {
+                elem.remove()
+            }
+        })
+    }
+
+    write(text) {
+        let h1 = document.createElement("h1")
+        h1.textContent = text
+        h1.style.color = this.color
+        document.body.appendChild(h1)
+
+    }
+}
+
+
+let p1 = new CreatePencil('natraj', 'shek', 10, 'red')
+let p2 = new CreatePencil('aaaaaaaaa', 'bbbbb', 15, 'black')
